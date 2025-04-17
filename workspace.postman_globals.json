@@ -1,0 +1,51 @@
+{
+	"id": "cd0368c2-405f-4648-8290-5098c11a2f7e",
+	"values": [
+		{
+			"key": "MsgLoginDelete",
+			"value": "Usuário deletado com sucesso!.",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "Erro400",
+			"value": "Esse usuário não existe em nossa base de dados.",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "Erro403",
+			"value": "No token provided.",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "ListadeEmpresas",
+			"value": "Retorna uma lista de empresas.",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "CentrodeCusto",
+			"value": "O campo 'centro de custos' é obrigatório.",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "Centro_de_Custos_Sucesso",
+			"value": "Cadastro realizado com sucesso.",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "Board_Sucesso",
+			"value": "Cadastro realizado com sucesso!",
+			"type": "default",
+			"enabled": true
+		}
+	],
+	"name": "Globals",
+	"_postman_variable_scope": "globals",
+	"_postman_exported_at": "2025-04-17T23:50:10.437Z",
+	"_postman_exported_using": "Postman/11.41.4-250416-2337"
+}

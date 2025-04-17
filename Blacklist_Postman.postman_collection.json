@@ -1,0 +1,1655 @@
+{
+	"info": {
+		"_postman_id": "1a319e3d-c3a0-444c-94f5-793799b7166e",
+		"name": "Blacklist_Postman",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40046894"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"tokenUsers\", pm.variables.replaceIn(JSON.parse(responseBody).token))\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"mail\": \"{{email_Qacoders}}\",\r\n  \"password\": \"{{senha_Qacoders}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}login",
+							"host": [
+								"{{URL}}login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RegisterUser",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function firstName () {\r",
+									" \r",
+									"    let firstName = [\"Anderson\", \"Maria\", \"Paulo\", \"Joao\", \"Helena\", \"Elisa\", \"Denilson\", \"Flavia\", \"Silvio\", \"Margarida\", \"Joana\", \"Thiago\", \"Ana\", \"Patricia\", \"Lucas\", \"Caio\", \"Lurdes\", \"Cecilia\", \"Michael\"]\r",
+									" \r",
+									"    let randomItem = firstName[Math.floor(Math.random() * firstName.length)];\r",
+									"    return randomItem\r",
+									"}\r",
+									" \r",
+									"pm.environment.set(\"FirstName\", firstName());\r",
+									" \r",
+									" \r",
+									"function lastName () {\r",
+									" \r",
+									"    let lastName = [\"Alves Almeida\", \"Silva Santos\", \"Ferreia Silva\", \"Lousada Andrade\", \"Pereira Souza\", \"Francisco Francelino\", \"Miranda Oliveira\", \"Martins Leiria\", \"Moureira Ruiz\", \"Florencio Filho\", \"Guimarães França\", \"Loureira\", \"Caetano Lima\", \"Moura\", \"Freitas\", \"Jardins\", \"Alpes\", \"Jackson Dias\"]\r",
+									" \r",
+									"    let randomItem = lastName[Math.floor(Math.random() * lastName.length)];\r",
+									"    return randomItem\r",
+									"}\r",
+									" \r",
+									"pm.environment.set(\"LastName\", lastName());\r",
+									" \r",
+									"pm.environment.set(\"FullName\", pm.environment.get(\"FirstName\") + \" \" + pm.environment.get(\"LastName\"));\r",
+									" \r",
+									"function providerMail () {\r",
+									" \r",
+									"    let providerMail = [\"@yahoo.com.br\", \"@gmail.com\", \"@bol.com\", \"@aol.com.br\", \"@ig.com.br\", \"@outlook.com\", \"@hotmail.com\"]\r",
+									" \r",
+									"    let randomItem = providerMail[Math.floor(Math.random() * providerMail.length)];\r",
+									"    return randomItem\r",
+									"}\r",
+									" \r",
+									"pm.environment.set(\"ProviderMail\", providerMail());\r",
+									" \r",
+									"pm.environment.set(\"Mail\", pm.environment.get(\"FirstName\") + \"_\" + pm.variables.replaceIn('{{$guid}}') + pm.environment.get (\"ProviderMail\"))\r",
+									" \r",
+									" \r",
+									" \r",
+									"function generateCPF() {\r",
+									"    let num = Math.floor(Math.random() * 999999999);\r",
+									"    let cpf = num.toString().padStart(9, '0');\r",
+									"    cpf += calcularDigito(cpf);\r",
+									"    cpf += calcularDigito(cpf);\r",
+									"    return cpf;\r",
+									"}\r",
+									"function calcularDigito(cpf) {\r",
+									"    let soma = 0;\r",
+									"    for (let i = 0; i < cpf.length; i++) {\r",
+									"        soma += parseInt(cpf[i]) * ((cpf.length + 1) - i);\r",
+									"    }\r",
+									"    let resto = (soma * 10) % 11;\r",
+									"    return (resto > 9) ? '0' : resto.toString();\r",
+									"}\r",
+									"// Definir a variável no Postman\r",
+									"pm.environment.set(\"CPF\", generateCPF());\r",
+									" \r",
+									"// Função para gerar um ID único de 24 caracteres"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								},
+								{
+									"key": "value",
+									"value": "{{tokenUsers}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"fullName\": \"{{FullName}}\",\r\n  \"mail\": \"{{Mail}}\",\r\n  \"accessProfile\": \"ADMIN\",\r\n  \"cpf\": \"{{CPF}}\",\r\n  \"password\": \"{{senha_Qacoders}}\",\r\n  \"confirmPassword\": \"{{senha_Qacoders}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}user/",
+							"host": [
+								"{{URL}}user"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"tokenUsuario\", pm.variables.replaceIn(JSON.parse(responseBody).token))\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"mail\": \"{{Mail}}\",\r\n  \"password\": \"{{senha_Qacoders}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}login",
+							"host": [
+								"{{URL}}login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search User by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									" \r",
+									"// Converter a string JSON para um objeto JavaScript\r",
+									"var data = pm.response.json();\r",
+									" \r",
+									"// Gerar um número aleatório entre 0 e o comprimento da lista de objetos - 1\r",
+									"var randomIndex = Math.floor(Math.random() * data.length);\r",
+									" \r",
+									"// Obter o _id do objeto selecionado aleatoriamente\r",
+									"var randomId = data[randomIndex]._id;\r",
+									" \r",
+									"// Armazenar o _id em uma variável de ambiente\r",
+									"pm.environment.set(\"randomId\", randomId);\r",
+									" \r",
+									"console.log(\"Random ID:\", randomId);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{tokenUsers}}",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}user/",
+							"host": [
+								"{{URL}}user"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Exclusão de Usuário/Caminho Feliz",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Usuário deletado com sucesso!\", function () {\r",
+									"    pm.expect(pm.globals.get(\"MsgLoginDelete\")).to.eql(JSON.parse(responseBody).msg);\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{tokenUsuario}}",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}user/{{randomId}}",
+							"host": [
+								"{{URL}}user"
+							],
+							"path": [
+								"{{randomId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Exclusão de Usuário/Erro 400",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Esse usuário não existe em nossa base de dados.\", function () {\r",
+									"    pm.expect(pm.globals.get(\"Erro400\")).to.eql(JSON.parse(responseBody).alert[0]);\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{tokenUsuario}}",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}user/6734fd6bbcd3e979d0f95456",
+							"host": [
+								"{{URL}}user"
+							],
+							"path": [
+								"6734fd6bbcd3e979d0f95456"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Exclusão de Usuário/Erro 403",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 403\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Sem token\", function () {\r",
+									"    pm.expect(pm.globals.get(\"Erro403\")).to.eql(JSON.parse(responseBody).errors[0]);\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}user/6734fd6bbcd3e979d0f95456",
+							"host": [
+								"{{URL}}user"
+							],
+							"path": [
+								"6734fd6bbcd3e979d0f95456"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Exclusão de Usuário/Erro 500",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 500\", function () {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Erro Interno do Servidor\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Cast to ObjectId failed for value\");\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{tokenUsuario}}",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}user/000000000000000000000",
+							"host": [
+								"{{URL}}user"
+							],
+							"path": [
+								"000000000000000000000"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Company",
+			"item": [
+				{
+					"name": "Lista de Empresas / Caminho Feliz",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status test\", function () {\r",
+									"    pm.response.to.have.status(200);  // Verifica se o status é 200\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Mensagem correta retornada\", function () {\r",
+									"    var expectedMessage = pm.globals.get(\"ListaCadastrada\"); // Pega o valor da variável global\r",
+									"    var responseMsg = JSON.parse(responseBody).companys; // Pega a mensagem do campo 'companys' da resposta\r",
+									"    pm.expect(expectedMessage).to.eql(responseMsg); // Compara\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{tokenUsuario}}",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"companys\": \"Retorna uma lista de empresas.\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}company/",
+							"host": [
+								"{{URL}}company"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lista de Empresas / Erro 400",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);  // Verifica se o status é 400\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Essa companhia não existe em nosso sistema.\", function () {\r",
+									"    var jsonData = pm.response.json();  // Acessa o corpo da resposta\r",
+									"    pm.expect(jsonData.alert[0]).to.eql(\"Essa companhia não existe em nosso sistema.\");  // Verifica a primeira mensagem no array 'alert'\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{tokenUsuario}}",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"companys\": \"Retorna uma lista de empresas.\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}company/6734fd6bbcd3e979d0f95456",
+							"host": [
+								"{{URL}}company"
+							],
+							"path": [
+								"6734fd6bbcd3e979d0f95456"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lista de Empresas / Erro 403",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status is 403\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Failed to authenticate token.\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.errors[0]).to.eql(\"Failed to authenticate token.\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{tokenInvalido}",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"companys\": \"Retorna uma lista de empresas.\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}company/",
+							"host": [
+								"{{URL}}company"
+							],
+							"path": [
+								""
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "tokeninvalido",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lista de Empresas / Erro 500",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 500\", function () {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Erro Interno do Servidor\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Cast to ObjectId failed for value\");\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{tokenUsuario}}",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"companys\": \"Retorna uma lista de empresas.\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}company/35133229",
+							"host": [
+								"{{URL}}company"
+							],
+							"path": [
+								"35133229"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "tokeninvalido",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "CostCenter",
+			"item": [
+				{
+					"name": "Listar Centro de Custos",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{tokenUsuario}}",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}costCenter/",
+							"host": [
+								"{{URL}}costCenter"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Criar Centro de Custos / 201",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status é 201\", function () {\r",
+									"    pm.response.to.have.status(201); // Verifica se o status retornado é 201\r",
+									"});\r",
+									"pm.test(\"Check msg: Cadastro realizado com sucesso.\", function () {\r",
+									"    pm.expect(pm.globals.get(\"Centro_de_Custos_Sucesso\")).to.eql(JSON.parse(responseBody).msg);\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function costCName() {\r",
+									"    let costCName = [\"Marketing\", \"Financeiro\", \"Informatica\", \"Contabilidade\", \"Logistica\", \"Almoxarifado\", \"RecursosHumanos\",  \"Transporte\", \"Cozinha\"];\r",
+									"    let randomItem = costCName[Math.floor(Math.random() * costCName.length)];\r",
+									"    return randomItem;\r",
+									"}\r",
+									" \r",
+									"// Gera um GUID e remove hifens e números\r",
+									"function cleanGuid() {\r",
+									"    return pm.variables.replaceIn('{{$guid}}')\r",
+									"        .replace(/-/g, '')       // Remove hifens\r",
+									"        .replace(/[0-9]/g, '');  // Remove números\r",
+									"}\r",
+									" \r",
+									"const name = costCName();\r",
+									"const guid = cleanGuid().substring(0, 8); // Pega apenas os primeiros 8 caracteres\r",
+									" \r",
+									"pm.environment.set(\"CostCName\", name);\r",
+									"pm.environment.set(\"CostCNameComplete\", name + guid);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{tokenUsuario}}",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"costCenterName\": \"{{CostCNameComplete}}\",\r\n  \"boardId\": \"67b756396d366102592b075c\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}costCenter/",
+							"host": [
+								"{{URL}}costCenter"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Criar Centro de Custos / Nome em Branco/400",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);  // Verifica se o status é 400\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Erro 400.\", function () {\r",
+									"    var jsonData = pm.response.json();  // Acessa o corpo da resposta\r",
+									"    pm.expect(jsonData.error[0]).to.eql(\"O campo 'centro de custos' é obrigatório.\");  // Verifica a primeira mensagem no array 'alert'\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{tokenUsuario}}",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"costCenterName\": \"\",\r\n  \"boardId\": \"67b756396d366102592b075c\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}costCenter/",
+							"host": [
+								"{{URL}}costCenter"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Criar Centro de Custos/ Somente com números/400",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);  // Verifica se o status é 400\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Erro 400.\", function () {\r",
+									"    var jsonData = pm.response.json();  // Acessa o corpo da resposta\r",
+									"    pm.expect(jsonData.error[0]).to.eql(\"O campo 'centro de custos' só pode conter letras e o caractere especial '&'.\");  // Verifica a primeira mensagem no array 'alert'\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{tokenUsuario}}",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"costCenterName\": \"4444444\",\r\n  \"boardId\": \"67b756396d366102592b075c\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}costCenter/",
+							"host": [
+								"{{URL}}costCenter"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Criar Centro de Custos/Nome com mais de 50 caracteres/400",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);  // Verifica se o status é 400\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Erro 400.\", function () {\r",
+									"    var jsonData = pm.response.json();  // Acessa o corpo da resposta\r",
+									"    pm.expect(jsonData.error[0]).to.eql(\"O campo 'centro de custos' deve possuir no máximo 50 caracteres.\");  // Verifica a primeira mensagem no array 'alert'\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{tokenUsuario}}",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"costCenterName\": \"Alexander Theodore Montgomery Harrington Windsor III\",\r\n  \"boardId\": \"67b756396d366102592b075c\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}costCenter/",
+							"host": [
+								"{{URL}}costCenter"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Criar Centro de Custos/Campo Id é obrigatório/400",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);  // Verifica se o status é 400\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Erro 400.\", function () {\r",
+									"    var jsonData = pm.response.json();  // Acessa o corpo da resposta\r",
+									"    pm.expect(jsonData.error[0]).to.eql(\"O campo 'ID da diretoria' é obrigatório.\");  // Verifica a primeira mensagem no array 'alert'\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{tokenUsuario}}",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"costCenterName\": \"Leia\",\r\n  \"boardId\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}costCenter/",
+							"host": [
+								"{{URL}}costCenter"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Criar Centro de Custos / Erro 403",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{tokenUsuarioInvaido}}",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"costCentername\": \"Marketing\",\r\n  \"boardId\": \"64e51573d94be9062773f6da\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}costCenter/",
+							"host": [
+								"{{URL}}costCenter"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Criar Centro de Custos / Erro 500",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 500\", function () {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Erro Interno do Servidor\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Cast to ObjectId failed for value\");\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{tokenUsuario}}",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"costCenterName\": \"Marketing\",\r\n  \"boardId\": \"4e51525d94be9062773f6d1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}costCenter/",
+							"host": [
+								"{{URL}}costCenter"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Criar Centro de Custos / Erro 409",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status is 409\", function () {\r",
+									"    pm.response.to.have.status(409); // Verifica se o status retornado é 409\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Mensagem de erro: Conflito com a diretoria\", function () {\r",
+									"    var jsonData = pm.response.json(); // Acessa o corpo da resposta\r",
+									"    pm.expect(jsonData.msg).to.eql(\"Não foi possível encontrar a diretoria com o id especificado\"); // Verifica a mensagem de erro\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{tokenUsuario}}",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"costCenterName\": \"Marketing\",\r\n  \"boardId\": \"64e51573d94be9062773f6d1\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}costCenter/",
+							"host": [
+								"{{URL}}costCenter"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Criar Centro de Custos /Erro 409",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status is 409\", function () {\r",
+									"    pm.response.to.have.status(409); // Verifica se o status retornado é 409\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Mensagem de erro: Centro de custos já cadastrado no sistema.\", function () {\r",
+									"    var jsonData = pm.response.json(); // Acessa o corpo da resposta\r",
+									"    pm.expect(jsonData.alert[0]).to.eql(\"Não é possível salvar esse registro. Centro de custos já cadastrado no sistema.\"); // Verifica a mensagem de erro\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{tokenUsuario}}",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"costCenterName\": \"HF\",\r\n  \"boardId\": \"670fdb3eb8d32c9e7301ef1e\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}costCenter/",
+							"host": [
+								"{{URL}}costCenter"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Board",
+			"item": [
+				{
+					"name": "Criação de diretoria 201",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function boardName() {\r",
+									"\r",
+									"    let boardName = [\"Diretoria\", \"Contabilidade\", \"Informatica\", \"Logistica\", \"Armazem\", \"Transportes\", \"Frete\", \"Comercial\", \"Expedicao\"];\r",
+									"\r",
+									"    let randomItem = boardName[Math.floor(Math.random() * boardName.length)];\r",
+									"\r",
+									"    return randomItem;\r",
+									"\r",
+									"}\r",
+									" \r",
+									"// Gera um GUID e remove hifens e números\r",
+									"\r",
+									"function cleanGuid() {\r",
+									"\r",
+									"    return pm.variables.replaceIn('{{$guid}}')\r",
+									"\r",
+									"        .replace(/-/g, '')       // Remove hifens\r",
+									"\r",
+									"        .replace(/[0-9]/g, '');  // Remove números\r",
+									"\r",
+									"}\r",
+									" \r",
+									"const name = boardName();\r",
+									"\r",
+									"const guid = cleanGuid().substring(0, 8); // Pega apenas os primeiros 8 caracteres\r",
+									" \r",
+									"pm.environment.set(\"BoardName\", name);\r",
+									"\r",
+									"pm.environment.set(\"BoardNameComplete\", name + guid);\r",
+									" "
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status é 201\", function () {\r",
+									"    pm.response.to.have.status(201); // Verifica se o status retornado é 201\r",
+									"});\r",
+									"pm.test(\"Check msg: Cadastro realizado com sucesso!\", function () {\r",
+									"    pm.expect(pm.globals.get(\"Board_Sucesso\")).to.eql(JSON.parse(responseBody).msg);\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{tokenUsuario}}",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"boardName\": \"{{BoardNameComplete}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}board/",
+							"host": [
+								"{{URL}}board"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
